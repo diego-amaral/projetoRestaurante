@@ -76,8 +76,6 @@ public class PedidoViewController implements Initializable {
 				throw new RuntimeException("Campo valor é obrigatório");
 			}
 
-			
-
 			String nomeCliente = tfCliente.getText();
 			String nomeDoPrato = tfNomeDoPrato.getText();
 			String observacoesComida = tfObservacoesComida.getText();
@@ -87,10 +85,7 @@ public class PedidoViewController implements Initializable {
 			Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
 			Date data = Date.from(instant);
 
-			Pedido pedido = new Pedido();
-
 			Cliente cliente = new Cliente();
-
 			cliente.setNome(nomeCliente);
 
 			Comida comida = new Comida();
@@ -101,6 +96,7 @@ public class PedidoViewController implements Initializable {
 			bebida.setTipoBebida(tipoDaBebida);
 			bebida.setEspecificacoes(especificacoes);
 
+			Pedido pedido = new Pedido();
 			pedido.setData(data);
 
 			int id_cliente = clienteDao.insert(cliente);
@@ -121,8 +117,6 @@ public class PedidoViewController implements Initializable {
 			int id_pedido = pedidoDao.insert(pedido);
 			pedido.setIdPedido(id_pedido);
 
-			pedido.setData(data);
-
 			pedido.setIdPedido(id_pedido);
 
 			pedidoDao.insert(pedido);
@@ -137,7 +131,7 @@ public class PedidoViewController implements Initializable {
 			alerta.setContentText(e.getMessage());
 			alerta.showAndWait();
 
-		} 
+		}
 
 	}
 
@@ -151,13 +145,15 @@ public class PedidoViewController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		MudancaTela novoListener = new MudancaTela() {
+
 			@Override
 			public void mudarTelaListener(String tela, Object obj) {
-				if (tela.equals("cadastro")) {
-					// garantir que o evento é na tela cadastro
+
+				if (tela.equals("cadastro")) { // garantir que o evento é na tela cadastro
 
 					System.out.println("tela: " + tela + " dado " + obj);
 				}
+
 			}
 		};
 

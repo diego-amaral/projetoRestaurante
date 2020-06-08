@@ -12,8 +12,8 @@ public class Pessoa {
 		return nome;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNome(String nomeCliente) {
+		this.nome = nomeCliente;
 	}
 
 	public String getCpf() {

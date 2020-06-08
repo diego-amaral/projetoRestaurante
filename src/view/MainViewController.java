@@ -75,7 +75,15 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void onBtnAtualizar() {
 		System.out.println("atualiza teste");
-		Main.trocaTela("main", null);
+
+		TableObject selecionado = tblPedido.getSelectionModel().getSelectedItem();
+
+		if (selecionado != null) {
+
+			Main.trocaTela("cadastro", selecionado);
+
+		}
+
 	}
 
 	@FXML
@@ -84,18 +92,20 @@ public class MainViewController implements Initializable {
 
 		// pegando o elemento
 		TableObject selecionado = tblPedido.getSelectionModel().getSelectedItem();
-		
-		//mostrando mensagem de alerta
+
+		// mostrando mensagem de alerta
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 		alert.setTitle("Confirmação");
 
 		alert.setHeaderText("Deseja excluir o Pedido?");
-		alert.setContentText((String) selecionado.getNomeCliente());
+		alert.setContentText(selecionado.getNomeCliente());
 		Optional<ButtonType> resultado = alert.showAndWait();
 
 		// se confirmardo então será deletado
 		if (resultado.get() == ButtonType.OK) {
-			pedidoDao.deleteById( selecionado.getId());
+
+			pedidoDao.deleteById(selecionado.getId());
+
 			updateTable();
 		}
 
@@ -161,6 +171,7 @@ public class MainViewController implements Initializable {
 		String bebida = null;
 		String especificacoesBebida = null;
 		Date data = null;
+		Integer id_pedido = null;
 
 		for (Pedido ped : pedidos) {
 
@@ -176,9 +187,11 @@ public class MainViewController implements Initializable {
 			especificacoesBebida = beb.getEspecificacoes();
 
 			data = ped.getData();
+			id_pedido = ped.getIdPedido();
 
-			TableObject table = new TableObject(nomeCliente, comida, observacoesComida, bebida, especificacoesBebida,
-					data.toString());
+			TableObject table = new TableObject(id_pedido, nomeCliente, comida, observacoesComida, bebida,
+					especificacoesBebida, data.toString());
+
 			tblPedido.getItems().add(table);
 
 		}
