@@ -156,7 +156,7 @@ public class BebidaDaoJDBC implements IBebidaDao {
 
 			st.setString(1, obj.getTipoBebida());
 			st.setString(2, obj.getEspecificacoes());
-			st.setInt(4, obj.getIdBebida());
+			st.setInt(3, obj.getIdBebida());
 
 			int linhas = st.executeUpdate();
 

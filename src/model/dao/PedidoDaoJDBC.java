@@ -33,19 +33,20 @@ public class PedidoDaoJDBC implements IPedidoDao {
 		PreparedStatement st = null;
 
 		try {
-			String sql = "INSERT INTO pedido (idCliente,nome,idComida,nomePrato,observacoesComida,idBebida,tipoBebida,especificacoes,dataPedido) VALUES (?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO pedido (idPedido,idCliente,nome,idComida,nomePrato,observacoesComida,idBebida,tipoBebida,especificacoes,dataPedido) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
 			st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-			st.setInt(1, obj.getCliente().getIdCliente());
-			st.setString(2, obj.getCliente().getNome());
-			st.setInt(3, obj.getComida().getIdComida());
-			st.setString(4, obj.getComida().getNomePrato());
-			st.setString(5, obj.getComida().getObsevacoes());
-			st.setInt(6, obj.getBebida().getIdBebida());
-			st.setString(7, obj.getBebida().getTipoBebida());
-			st.setString(8, obj.getBebida().getEspecificacoes());
-			st.setDate(9, new java.sql.Date(obj.getData().getTime()));
+			
+			st.setInt(1, obj.getIdPedido());
+			st.setInt(2, obj.getCliente().getIdCliente());
+			st.setString(3, obj.getCliente().getNome());
+			st.setInt(4, obj.getComida().getIdComida());
+			st.setString(5, obj.getComida().getNomePrato());
+			st.setString(6, obj.getComida().getObsevacoes());
+			st.setInt(7, obj.getBebida().getIdBebida());
+			st.setString(8, obj.getBebida().getTipoBebida());
+			st.setString(9, obj.getBebida().getEspecificacoes());
+			st.setDate(10, new java.sql.Date(obj.getData().getTime()));
 
 			int linhas = st.executeUpdate();
 
@@ -59,7 +60,7 @@ public class PedidoDaoJDBC implements IPedidoDao {
 			}
 		} catch (SQLException e) {
 
-			throw new DbException(e.getMessage());// envia uma exceção
+			throw new DbException(e.getMessage());  // envia uma exceção
 
 		} finally {
 

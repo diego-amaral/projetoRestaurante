@@ -24,6 +24,7 @@ import model.dao.ClienteDaoJDBC;
 import model.dao.ComidaDaoJDBC;
 import model.dao.DaoFactory;
 import model.dao.PedidoDaoJDBC;
+import view.MainViewController.TableObject;
 
 public class PedidoViewController implements Initializable {
 
@@ -31,6 +32,8 @@ public class PedidoViewController implements Initializable {
 	ComidaDaoJDBC comidaDao = null;
 	BebidaDaoJDBC bebidaDao = null;
 	PedidoDaoJDBC pedidoDao = null;
+
+	Pedido pedido = new Pedido();
 
 	@FXML
 	private TextField tfCliente;
@@ -63,17 +66,17 @@ public class PedidoViewController implements Initializable {
 		try {
 
 			if (tfCliente.getText().isEmpty()) {
-				throw new RuntimeException("Campo nome é obrigatório");
+				throw new RuntimeException("Campo (cliente) é obrigatório");
 			}
 			if (tfNomeDoPrato.getText().isEmpty()) {
-				throw new RuntimeException("Campo endereço é obrigatório");
+				throw new RuntimeException("Campo (nome do prato) é obrigatório");
 			}
 			if (tfTipoDaBebida.getText().isEmpty()) {
-				throw new RuntimeException("Campo valor é obrigatório");
+				throw new RuntimeException("Campo (tipo da bebida) é obrigatório");
 			}
 
 			if (tfEspecificacoes.getText().isEmpty()) {
-				throw new RuntimeException("Campo valor é obrigatório");
+				throw new RuntimeException("Campo (especificações) é obrigatório");
 			}
 
 			String nomeCliente = tfCliente.getText();
@@ -85,44 +88,60 @@ public class PedidoViewController implements Initializable {
 			Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
 			Date data = Date.from(instant);
 
-			Cliente cliente = new Cliente();
-			cliente.setNome(nomeCliente);
+			if (pedido != null) {
+				// vem de update
+				Cliente cliente = pedido.getCliente();
+				cliente.setNome(nomeCliente);
 
-			Comida comida = new Comida();
-			comida.setNomePrato(nomeDoPrato);
-			comida.setObsevacoes(observacoesComida);
+				Comida comida = pedido.getComida();
+				comida.setNomePrato(nomeDoPrato);
+				comida.setObsevacoes(observacoesComida);
 
-			Bebida bebida = new Bebida();
-			bebida.setTipoBebida(tipoDaBebida);
-			bebida.setEspecificacoes(especificacoes);
+				Bebida bebida = pedido.getBebida();
+				bebida.setTipoBebida(tipoDaBebida);
+				bebida.setEspecificacoes(especificacoes);
 
-			Pedido pedido = new Pedido();
-			pedido.setData(data);
+				clienteDao.update(cliente);
+				comidaDao.update(comida);
+				bebidaDao.update(bebida);
+				pedidoDao.update(pedido);
+				
+				Main.trocaTela("main", null);
+			} else {
 
-			int id_cliente = clienteDao.insert(cliente);
-			cliente.setIdCliente(id_cliente);
+				Cliente cliente = new Cliente();
+				cliente.setNome(nomeCliente);
 
-			pedido.setCliente(cliente);
+				Comida comida = new Comida();
+				comida.setNomePrato(nomeDoPrato);
+				comida.setObsevacoes(observacoesComida);
 
-			int id_comida = comidaDao.insert(comida);
-			comida.setIdComida(id_comida);
+				Bebida bebida = new Bebida();
+				bebida.setTipoBebida(tipoDaBebida);
+				bebida.setEspecificacoes(especificacoes);
 
-			pedido.setComida(comida);
+				Pedido pedido = new Pedido();
+				pedido.setData(data);
 
-			int id_bebida = bebidaDao.insert(bebida);
-			bebida.setIdBebida(id_bebida);
+				int id_cliente = clienteDao.insert(cliente);
+				cliente.setIdCliente(id_cliente);
 
-			pedido.setBebida(bebida);
+				pedido.setCliente(cliente);
 
-			int id_pedido = pedidoDao.insert(pedido);
-			pedido.setIdPedido(id_pedido);
+				int id_comida = comidaDao.insert(comida);
+				comida.setIdComida(id_comida);
 
-			pedido.setIdPedido(id_pedido);
+				pedido.setComida(comida);
 
-			pedidoDao.insert(pedido);
+				int id_bebida = bebidaDao.insert(bebida);
+				bebida.setIdBebida(id_bebida);
 
-			Main.trocaTela("main", null);
+				pedido.setBebida(bebida);
 
+				pedidoDao.insert(pedido);
+
+				Main.trocaTela("main", null);
+			}
 		} catch (RuntimeException e) {
 
 			Alert alerta = new Alert(Alert.AlertType.ERROR);
@@ -145,16 +164,46 @@ public class PedidoViewController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		MudancaTela novoListener = new MudancaTela() {
-
 			@Override
 			public void mudarTelaListener(String tela, Object obj) {
+				// garantir que o evento é na tela cliente
+				if (tela.equals("cadastro")) {
 
-				if (tela.equals("cadastro")) { // garantir que o evento é na tela cadastro
+				}
+				if (obj != null) {
 
-					System.out.println("tela: " + tela + " dado " + obj);
+					// vem do botão Atualizar
+					TableObject tableObject = (TableObject) obj;
+
+					pedido = (Pedido) pedidoDao.findById(tableObject.getId());
+
+					Cliente cliente = (Cliente) clienteDao.findById(pedido.getCliente().getIdCliente());
+					Comida comida = (Comida) comidaDao.findById(pedido.getComida().getIdComida());
+					Bebida bebida = (Bebida) bebidaDao.findById(pedido.getBebida().getIdBebida());
+					pedido.setCliente(cliente);
+					pedido.setComida(comida);
+					pedido.setBebida(bebida);
+
+					tfCliente.setText(pedido.getCliente().getNome());
+					tfNomeDoPrato.setText(pedido.getComida().getNomePrato());
+					tfObservacoesComida.setText(pedido.getComida().getObsevacoes());
+					tfTipoDaBebida.setText(pedido.getBebida().getTipoBebida());
+					tfEspecificacoes.setText(pedido.getBebida().getEspecificacoes());
+
+					System.out.println("Id cliente" + pedido.getIdPedido());
+				} else {
+					// vem do botão cadastro
+					pedido = null;
+
+					tfCliente.clear();
+					tfNomeDoPrato.clear();
+					tfObservacoesComida.clear();
+					tfTipoDaBebida.clear();
+					tfEspecificacoes.clear();
 				}
 
 			}
+
 		};
 
 		Main.addListenerMudancaTela(novoListener);
@@ -165,5 +214,4 @@ public class PedidoViewController implements Initializable {
 		pedidoDao = (PedidoDaoJDBC) DaoFactory.createPedidoDao();
 
 	}
-
 }

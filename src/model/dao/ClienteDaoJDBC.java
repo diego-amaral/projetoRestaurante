@@ -26,13 +26,12 @@ public class ClienteDaoJDBC implements IClienteDao {
 
 		PreparedStatement st = null;
 		try {
-			String sql = "INSERT INTO cliente (nome, cpf) VALUES (?,?)";
+			String sql = "INSERT INTO cliente (nome) VALUES (?)";
 
 			st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 			st.setString(1, obj.getNome());
-			st.setString(2, obj.getCpf());
-
+			
 			int linhas = st.executeUpdate();
 
 			if (linhas > 0) {

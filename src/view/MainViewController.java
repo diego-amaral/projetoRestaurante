@@ -123,12 +123,11 @@ public class MainViewController implements Initializable {
 		MudancaTela novoListener = new MudancaTela() {
 			@Override
 			public void mudarTelaListener(String tela, Object obj) {
-
+				
 				associarColunas();
 				updateTable();
 			}
 		};
-
 		Main.addListenerMudancaTela(novoListener);
 
 		clienteDao = (ClienteDaoJDBC) DaoFactory.createClienteDao();
@@ -155,47 +154,6 @@ public class MainViewController implements Initializable {
 		clBebida.setCellValueFactory(clBebidaProperty);
 		clEspecificacoesBebida.setCellValueFactory(clEspecificacoesBebidaProperty);
 		clData.setCellValueFactory(clDataProperty);
-	}
-
-	private void updateTable() {
-
-		// limpa antes de adicionar
-		tblPedido.getItems().clear();
-
-		// lista para obter os pedidos
-		List<Pedido> pedidos = pedidoDao.findAll();
-
-		String nomeCliente = null;
-		String comida = null;
-		String observacoesComida = null;
-		String bebida = null;
-		String especificacoesBebida = null;
-		Date data = null;
-		Integer id_pedido = null;
-
-		for (Pedido ped : pedidos) {
-
-			Cliente cliente = (Cliente) clienteDao.findById(ped.getIdPedido());
-			nomeCliente = cliente.getNome();
-
-			Comida co = (Comida) comidaDao.findById(ped.getIdPedido());
-			comida = co.getNomePrato();
-			observacoesComida = co.getObsevacoes();
-
-			Bebida beb = (Bebida) bebidaDao.findById(ped.getIdPedido());
-			bebida = beb.getTipoBebida();
-			especificacoesBebida = beb.getEspecificacoes();
-
-			data = ped.getData();
-			id_pedido = ped.getIdPedido();
-
-			TableObject table = new TableObject(id_pedido, nomeCliente, comida, observacoesComida, bebida,
-					especificacoesBebida, data.toString());
-
-			tblPedido.getItems().add(table);
-
-		}
-
 	}
 
 	public static class TableObject {
@@ -285,6 +243,47 @@ public class MainViewController implements Initializable {
 
 		public void setData(String data) {
 			this.data = data;
+		}
+
+	}
+
+	private void updateTable() {
+
+		// limpa antes de adicionar
+		tblPedido.getItems().clear();
+
+		// lista para obter os pedidos
+		List<Pedido> pedidos = pedidoDao.findAll();
+
+		String nomeCliente = null;
+		String comida = null;
+		String observacoesComida = null;
+		String bebida = null;
+		String especificacoesBebida = null;
+		Date data = null;
+		Integer id_pedido = null;
+
+		for (Pedido ped : pedidos) {
+
+			Cliente cliente = (Cliente) clienteDao.findById(ped.getIdPedido());
+			nomeCliente = cliente.getNome();
+
+			Comida co = (Comida) comidaDao.findById(ped.getIdPedido());
+			comida = co.getNomePrato();
+			observacoesComida = co.getObsevacoes();
+
+			Bebida beb = (Bebida) bebidaDao.findById(ped.getIdPedido());
+			bebida = beb.getTipoBebida();
+			especificacoesBebida = beb.getEspecificacoes();
+
+			data = ped.getData();
+			id_pedido = ped.getIdPedido();
+
+			TableObject table = new TableObject(id_pedido, nomeCliente, comida, observacoesComida, bebida,
+					especificacoesBebida, data.toString());
+
+			tblPedido.getItems().add(table);
+
 		}
 
 	}

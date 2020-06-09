@@ -2,10 +2,6 @@ package model.dao;
 
 public class DaoFactory {
 
-	public static IPedidoDao createPedidoDao() {
-		return new PedidoDaoJDBC();
-	}
-
 	public static IClienteDao createClienteDao() {
 		return new ClienteDaoJDBC();
 	}
@@ -16,6 +12,10 @@ public class DaoFactory {
 
 	public static IBebidaDao createBebidaDao() {
 		return new BebidaDaoJDBC();
+	}
+
+	public static IPedidoDao createPedidoDao() {
+		return new PedidoDaoJDBC();
 	}
 
 }

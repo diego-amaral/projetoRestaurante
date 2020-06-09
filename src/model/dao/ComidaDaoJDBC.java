@@ -42,6 +42,7 @@ public class ComidaDaoJDBC implements IComidaDao {
 					idComida = rs.getInt(1);
 				}
 				System.out.println("Adicionado com o id: " + idComida);
+				
 				DB.closeResultSet(rs);
 			}
 		} catch (SQLException e) {
