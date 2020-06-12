@@ -36,7 +36,7 @@ public class PedidoDaoJDBC implements IPedidoDao {
 			String sql = "INSERT INTO pedido (idPedido,idCliente,nome,idComida,nomePrato,observacoesComida,idBebida,tipoBebida,especificacoes,dataPedido) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
 			st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			st.setInt(1, obj.getIdPedido());
 			st.setInt(2, obj.getCliente().getIdCliente());
 			st.setString(3, obj.getCliente().getNome());
@@ -55,12 +55,12 @@ public class PedidoDaoJDBC implements IPedidoDao {
 				while (rs.next()) {
 					idPedido = rs.getInt(1);
 				}
-				System.out.println("Adicionado com o id: " + idPedido);
+
 				DB.closeResultSet(rs);
 			}
 		} catch (SQLException e) {
 
-			throw new DbException(e.getMessage());  // envia uma exceção
+			throw new DbException(e.getMessage()); // envia uma exceção
 
 		} finally {
 
@@ -210,6 +210,78 @@ public class PedidoDaoJDBC implements IPedidoDao {
 
 	}
 
+	public List<Pedido> findByName(String nomeBuscado) {
+
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		List<Pedido> pedidos = new ArrayList<Pedido>();
+
+		try {
+
+			String sql = "SELECT idPedido, idCliente,nome,idComida,nomePrato,observacoesComida,idBebida,tipoBebida,especificacoes,dataPedido  FROM pedido WHERE nome LIKE ?";
+
+			st = conn.prepareStatement(sql);
+
+			st.setString(1, '%' + nomeBuscado + '%');
+
+			rs = st.executeQuery();
+
+			while (rs.next()) {
+
+				int id_pedido = rs.getInt("idPedido");
+
+				int id_cliente = rs.getInt("idCliente");
+				String nome = rs.getString("nome");
+
+				int id_comida = rs.getInt("idComida");
+				String nomePrato = rs.getString("nomePrato");
+				String observacoesComida = rs.getString("observacoesComida");
+
+				int id_bebida = rs.getInt("idBebida");
+				String tipoBebida = rs.getString("tipoBebida");
+				String especificacoes = rs.getString("especificacoes");
+
+				Date dataPedido = rs.getDate("dataPedido");
+
+				Pedido pedido = new Pedido();
+
+				pedido.setIdPedido(id_pedido);
+
+				Cliente cliente = new Cliente();
+				cliente.setIdCliente(id_cliente);
+				cliente.setNome(nome);
+
+				Comida comida = new Comida();
+				comida.setIdComida(id_comida);
+				comida.setNomePrato(nomePrato);
+				comida.setObsevacoes(observacoesComida);
+
+				Bebida bebida = new Bebida();
+				bebida.setIdBebida(id_bebida);
+				bebida.setTipoBebida(tipoBebida);
+				bebida.setEspecificacoes(especificacoes);
+
+				pedido.setCliente(cliente);
+				pedido.setComida(comida);
+				pedido.setBebida(bebida);
+				pedido.setData(dataPedido);
+
+				pedidos.add(pedido);
+			}
+
+		} catch (SQLException e) {
+
+			throw new DbException(e.getMessage());
+
+		} finally {
+			DB.closeResultSet(rs);
+			DB.closeStatement(st);
+		}
+
+		return pedidos;
+
+	}
+
 	@Override
 	public void update(Pedido obj) {
 		PreparedStatement st = null;
@@ -229,7 +301,7 @@ public class PedidoDaoJDBC implements IPedidoDao {
 			int linhas = st.executeUpdate();
 
 			if (linhas > 0) {
-				System.out.println("Alterado");
+
 			}
 
 		} catch (SQLException e) {
@@ -254,7 +326,7 @@ public class PedidoDaoJDBC implements IPedidoDao {
 			int linhas = st.executeUpdate();
 
 			if (linhas > 0) {
-				System.out.println("Deletado");
+
 			}
 		} catch (SQLException e) {
 

@@ -41,8 +41,7 @@ public class ComidaDaoJDBC implements IComidaDao {
 				while (rs.next()) {
 					idComida = rs.getInt(1);
 				}
-				System.out.println("Adicionado com o id: " + idComida);
-				
+
 				DB.closeResultSet(rs);
 			}
 		} catch (SQLException e) {
@@ -162,7 +161,7 @@ public class ComidaDaoJDBC implements IComidaDao {
 			int linhas = st.executeUpdate();
 
 			if (linhas > 0) {
-				System.out.println("Alterado");
+
 			}
 
 		} catch (SQLException e) {
@@ -187,7 +186,7 @@ public class ComidaDaoJDBC implements IComidaDao {
 			int linhas = st.executeUpdate();
 
 			if (linhas > 0) {
-				System.out.println("Deletado");
+
 			}
 		} catch (SQLException e) {
 

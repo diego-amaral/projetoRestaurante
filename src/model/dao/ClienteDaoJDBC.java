@@ -39,7 +39,7 @@ public class ClienteDaoJDBC implements IClienteDao {
 				while (rs.next()) {
 					idCliente = rs.getInt(1);
 				}
-				System.out.println("Adicionado com o id: " + idCliente);
+				
 				DB.closeResultSet(rs);
 			}
 		} catch (SQLException e) {
@@ -137,7 +137,7 @@ public class ClienteDaoJDBC implements IClienteDao {
 			int linhas = st.executeUpdate();
 
 			if (linhas > 0) {
-				System.out.println("Alterado");
+				
 			}
 
 		} catch (SQLException e) {
@@ -162,7 +162,7 @@ public class ClienteDaoJDBC implements IClienteDao {
 			int linhas = st.executeUpdate();
 
 			if (linhas > 0) {
-				System.out.println("Deletado");
+				
 			}
 		} catch (SQLException e) {
 

@@ -61,7 +61,6 @@ public class PedidoViewController implements Initializable {
 
 	@FXML
 	private void onBtnok() {
-		System.out.println("Botão ok ");
 
 		try {
 
@@ -105,7 +104,7 @@ public class PedidoViewController implements Initializable {
 				comidaDao.update(comida);
 				bebidaDao.update(bebida);
 				pedidoDao.update(pedido);
-				
+
 				Main.trocaTela("main", null);
 			} else {
 
@@ -156,7 +155,7 @@ public class PedidoViewController implements Initializable {
 
 	@FXML
 	private void onBtnCancelar() {
-		System.out.println("Botão Cancelar teste");
+
 		Main.trocaTela("main", null);
 	}
 
@@ -190,7 +189,6 @@ public class PedidoViewController implements Initializable {
 					tfTipoDaBebida.setText(pedido.getBebida().getTipoBebida());
 					tfEspecificacoes.setText(pedido.getBebida().getEspecificacoes());
 
-					System.out.println("Id cliente" + pedido.getIdPedido());
 				} else {
 					// vem do botão cadastro
 					pedido = null;

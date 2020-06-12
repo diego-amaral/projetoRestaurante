@@ -68,13 +68,12 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onBtnCadastrar() {
-		System.out.println("Cadastro teste");
+
 		Main.trocaTela("cadastro", null);
 	}
 
 	@FXML
 	public void onBtnAtualizar() {
-		System.out.println("atualiza teste");
 
 		TableObject selecionado = tblPedido.getSelectionModel().getSelectedItem();
 
@@ -88,7 +87,6 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onBtnApagar() {
-		System.out.println("Apaga teste");
 
 		// pegando o elemento
 		TableObject selecionado = tblPedido.getSelectionModel().getSelectedItem();
@@ -113,7 +111,7 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onBtnConsultar() {
-		System.out.println("Consultar teste");
+
 		Main.trocaTela("consulta", null);
 	}
 
@@ -123,7 +121,7 @@ public class MainViewController implements Initializable {
 		MudancaTela novoListener = new MudancaTela() {
 			@Override
 			public void mudarTelaListener(String tela, Object obj) {
-				
+
 				associarColunas();
 				updateTable();
 			}
