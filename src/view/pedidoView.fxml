@@ -83,12 +83,12 @@
       </ToolBar>
       <ImageView fitHeight="25.0" fitWidth="32.0" layoutX="26.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../imagens%20do%20programa/prato.png" />
+            <Image url="@../../imagens/prato.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="25.0" fitWidth="32.0" layoutX="517.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../imagens%20do%20programa/prato.png" />
+            <Image url="@../../imagens/prato.png" />
          </image>
       </ImageView>
    </children>

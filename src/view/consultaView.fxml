@@ -65,7 +65,7 @@
       </Button>
       <ImageView fitHeight="32.0" fitWidth="31.0" layoutX="434.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../imagens%20do%20programa/pessoa.png" />
+            <Image url="@../../imagens/pessoa.png" />
          </image>
       </ImageView>
    </children>

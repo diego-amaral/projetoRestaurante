@@ -55,7 +55,7 @@
       </ToolBar>
       <ImageView fitHeight="386.0" fitWidth="439.0" layoutX="102.0" layoutY="-90.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../imagens%20do%20programa/logo_do_projeto.png" />
+            <Image url="@../../imagens/logo_do_projeto.png" />
          </image>
       </ImageView>
    </children>
