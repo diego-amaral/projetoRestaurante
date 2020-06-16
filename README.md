@@ -7,6 +7,4 @@ Concluido a tela principal, tela de cadastro de pedidos, tela de consulta (busca
 * _**1.0**_
 ## Ferramenta utilizada
 * _**Eclipse**_
-
-
 ![logo_do_projeto](https://github.com/diego-amaral/projetoRestaurante/blob/master/imagens/logo_do_projeto.png)
